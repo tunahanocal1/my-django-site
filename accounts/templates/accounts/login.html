@@ -1,17 +1,17 @@
-{% extends "master.html" %}
-
-{% block title %}
-  My Tennis Club - List of all members
-{% endblock %}
-
-
-{% block content %}
-  <div class="mycard">
-    <h1>Members</h1>
-    <ul>
-      {% for x in mymembers %}
-        <li onclick="window.location = 'details/{{ x.id }}'">{{ x.firstname }} {{ x.lastname }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endblock %}
+<!-- accounts/templates/accounts/login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Giriş Yap</title>
+</head>
+<body>
+    <h1>Giriş Yap</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Kullanıcı adı" required><br>
+        <input type="password" name="password" placeholder="Şifre" required><br>
+        <button type="submit">Giriş Yap</button>
+    </form>
+    <a href="{% url 'register' %}">Hesap oluştur</a>
+</body>
+</html>
