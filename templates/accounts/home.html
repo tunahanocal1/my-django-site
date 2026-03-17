@@ -3,8 +3,6 @@
 {% block content %}
 
 <div class="text-center">
-    <span class="navbar-brand">NetBox</span>
-
     {% if user.is_authenticated %}
         <div class="alert alert-success">
             Giriş yaptın: <strong>{{ user.username }}</strong>

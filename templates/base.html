@@ -23,10 +23,16 @@
             background-color: #1c1c1c;
         }
 
-        .site-title {
+        /* Başlık */
+        .navbar-brand {
             font-size: 2rem;
             font-weight: bold;
-            margin: 0;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar-brand:hover {
+            color: #3b82f6;
         }
 
         nav a {
@@ -97,10 +103,18 @@
 </head>
 <body>
     <header>
+        <!-- Başlık tıklanabilir -->
         <a href="{% url 'home' %}" class="navbar-brand">NetBox</a>
+
+        <!-- Navbar: kullanıcı durumu kontrolü -->
         <nav>
-            <a href="{% url 'login' %}">Giriş Yap</a>
-            <a href="{% url 'register' %}">Kayıt Ol</a>
+            {% if user.is_authenticated %}
+                <span style="margin-right:1rem;">Merhaba, {{ user.username }}</span>
+                <a href="{% url 'logout' %}">Çıkış Yap</a>
+            {% else %}
+                <a href="{% url 'login' %}">Giriş Yap</a>
+                <a href="{% url 'register' %}">Kayıt Ol</a>
+            {% endif %}
         </nav>
     </header>
 
