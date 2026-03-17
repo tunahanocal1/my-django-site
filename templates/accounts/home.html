@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="text-center">
-    <h1><a href="{% url 'home' %}" class="logo-link">NetBox</a></h1>
+    <a href="{% url 'home' %}" class="navbar-brand">NetBox</a>
 
     {% if user.is_authenticated %}
         <div class="alert alert-success">

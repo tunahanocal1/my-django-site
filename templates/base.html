@@ -14,16 +14,6 @@
             color: #ffffff;
         }
 
-        .logo-link {
-            text-decoration: none;  /* alt çizgiyi kaldırır */
-            color: #fff;            /* beyaz renk (dark theme için) */
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .logo-link:hover {
-            color: #1e90ff;         /* hover efekti */
-        }
-
         header {
             display: flex;
             justify-content: space-between;
@@ -109,7 +99,6 @@
     <header>
         <h1 class="site-title">NetBox</h1>
         <nav>
-            <a href="{% url 'home' %}" class="logo">NetBox</a>
             <a href="{% url 'login' %}">Giriş Yap</a>
             <a href="{% url 'register' %}">Kayıt Ol</a>
         </nav>
