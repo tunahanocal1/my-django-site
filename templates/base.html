@@ -109,11 +109,11 @@
         <!-- Navbar: kullanıcı durumu kontrolü -->
         <nav>
             {% if user.is_authenticated %}
-                <span style="margin-right:1rem;">Merhaba, {{ user.username }}</span>
-                <a href="{% url 'logout' %}">Çıkış Yap</a>
+                <span style="margin-right:1rem;">Hi, {{ user.username }}</span>
+                <a href="{% url 'logout' %}">Logout</a>
             {% else %}
-                <a href="{% url 'login' %}">Giriş Yap</a>
-                <a href="{% url 'register' %}">Kayıt Ol</a>
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
             {% endif %}
         </nav>
     </header>
@@ -124,7 +124,7 @@
     </main>
 
     <footer>
-        &copy; 2026 NetBox. Tüm hakları saklıdır.
+        &copy; 2026 NetBox. All rights reserved.
     </footer>
 </body>
 </html>
