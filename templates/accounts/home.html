@@ -1,9 +1,17 @@
-<h1>Ana Sayfa</h1>
+{% extends 'base.html' %}
 
-{% if user.is_authenticated %}
-    <p>Hoşgeldin {{ user.username }}</p>
-    <a href="{% url 'logout' %}">Çıkış</a>
-{% else %}
-    <a href="{% url 'login' %}">Giriş Yap</a>
-    <a href="{% url 'register' %}">Kayıt Ol</a>
-{% endif %}
+{% block content %}
+
+<div class="text-center">
+    <h1 class="mb-4">🚀 Django Siteme Hoşgeldin</h1>
+
+    {% if user.is_authenticated %}
+        <div class="alert alert-success">
+            Giriş yaptın: <strong>{{ user.username }}</strong>
+        </div>
+    {% else %}
+        <p class="lead">Devam etmek için giriş yap veya kayıt ol</p>
+    {% endif %}
+</div>
+
+{% endblock %}
