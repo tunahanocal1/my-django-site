@@ -1,2 +1,12 @@
-<h1>Profil sayfası</h1>
-<p>{{ user.username }}</p>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Profil</h1>
+
+<div style="background:#1e1e1e; padding:20px; border-radius:10px;">
+    <h2>{{ user.username }}</h2>
+    <p>{{ user.email }}</p>
+</div>
+
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
