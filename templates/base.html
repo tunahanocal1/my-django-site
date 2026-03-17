@@ -109,8 +109,10 @@
         <!-- Navbar: kullanıcı durumu kontrolü -->
         <nav>
             {% if user.is_authenticated %}
-                <span style="margin-right:1rem;">Hi, {{ user.username }}</span>
-                <a href="{% url 'logout' %}">Logout</a>
+                <a href="{% url 'profile' %}" style="display:flex; align-items:center; gap:0.5rem;">
+                    <img src="{{ user.profile.avatar.url }}" alt="Profil" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
+                    {{ user.username }}
+                </a>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
                 <a href="{% url 'register' %}">Register</a>
