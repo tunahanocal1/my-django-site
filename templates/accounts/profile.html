@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Profiliniz</h2>
+<h2>Profile/h2>
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Güncelle">
-</form>
-
-<a href="{% url 'logout' %}">Çıkış Yap</a>
+<a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
