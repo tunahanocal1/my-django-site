@@ -5,18 +5,17 @@ from django.contrib.auth.decorators import login_required
 import requests
 
 def home(request):
-    url = "https://www.googleapis.com/books/v1/volumes?q=subject:fiction&maxResults=10"
+    url = "https://www.googleapis.com/books/v1/volumes?q=bestseller"
     response = requests.get(url)
     data = response.json()
 
     books = []
 
-    for item in data.get('items', []):
-        volume = item['volumeInfo']
-
+    for item in data.get('items', [])[:8]:
+        volume = item.get('volumeInfo', {})
+        
         books.append({
             'title': volume.get('title'),
-            'author': volume.get('authors', ['Unknown'])[0],
             'thumbnail': volume.get('imageLinks', {}).get('thumbnail')
         })
 
