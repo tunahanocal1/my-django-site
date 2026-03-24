@@ -36,7 +36,7 @@
             {% if book.thumbnail %}
                 <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
             
-            {% endif %}
+            {% else %}
             <small>{{ book.title }}</small>
         </div>
         {% endfor %}
