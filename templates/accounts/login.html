@@ -1,17 +1,36 @@
-{% extends "base.html" %}
-
-{% block title %}Login - NetBox{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <div class="links">
-        <a href="{% url 'register' %}">Create an account</a>
-    </div>
-</div>
+
+<h2>Login</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <!-- İnce uzun login butonu -->
+    <input type="submit" value="Login" style="
+        width: 100%;
+        padding: 0.6rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: #3b82f6;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+    ">
+</form>
+
+<!-- Link gibi create account -->
+<p style="margin-top: 1rem; text-align:center;">
+    Create an account?
+    <a href="{% url 'register' %}" style="
+        color: #3b82f6;
+        text-decoration: none;
+        font-weight: 500;
+    ">
+        Create
+    </a>
+</p>
+
 {% endblock %}
