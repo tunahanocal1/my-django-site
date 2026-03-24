@@ -2,9 +2,28 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+import requests
 
 def home(request):
     return render(request, 'accounts/home.html')
+
+def home(request):
+    url = "https://www.googleapis.com/books/v1/volumes?q=subject:fiction&maxResults=10"
+    response = requests.get(url)
+    data = response.json()
+
+    books = []
+
+    for item in data.get('items', []):
+        volume = item['volumeInfo']
+
+        books.append({
+            'title': volume.get('title'),
+            'author': volume.get('authors', ['Unknown'])[0],
+            'thumbnail': volume.get('imageLinks', {}).get('thumbnail')
+        })
+
+    return render(request, 'accounts/home.html', {'books': books})
 
 def register(request):
     if request.method == 'POST':
