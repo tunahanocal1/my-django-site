@@ -110,9 +110,6 @@
         <nav>
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}">Profile</a>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
             {% endif %}
         </nav>
     </header>

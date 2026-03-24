@@ -1,85 +1,132 @@
-{% extends 'base.html' %}
+<!-- templates/accounts/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLogger - Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
 
-{% block content %}
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding-top: 120px; /* üst boşluk */
+            padding-bottom: 60px;
+            background-color: #1e1e2f;
+            color: white;
+        }
 
-<!-- HERO -->
-<section style="text-align:center; margin-top:40px;">
-    <h1 style="font-size:3rem;">Track, discover, and share the books you read</h1>
-    <p style="color:#aaa; margin-top:10px;">
-        Build your reading history and explore new books with NetBox
-    </p>
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
 
-    <div style="margin-top:20px;">
-        <a href="{% url 'register' %}" style="
-            background:#3b82f6;
-            padding:10px 20px;
-            border-radius:8px;
-            color:white;
-            text-decoration:none;
-            margin-right:10px;
-        ">Get Started</a>
+        .hero-buttons {
+            margin-top: 20px;
+        }
 
-        <a href="{% url 'login' %}" style="
-            color:#3b82f6;
-            text-decoration:none;
-        ">Login</a>
+        .btn-login {
+            display: inline-block;
+            padding: 12px 40px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: white;
+            color: #007bff;
+        }
+
+        .link-register {
+            display: inline-block;
+            margin-left: 20px;
+            color: #ffffff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .link-register:hover {
+            color: #00bfff;
+        }
+
+        /* Book showcase */
+        .book-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 60px; /* üstten boşluk */
+        }
+
+        .book-card {
+            background-color: white;
+            width: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            text-align: center;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .book-card p {
+            padding: 10px;
+            font-size: 0.9rem;
+            color: #333;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <h1>BookLogger</h1>
+        <p>Keep track of the books you’ve read and want to read.</p>
+        <div class="hero-buttons">
+            <a href="{% url 'login' %}" class="btn-login">Login</a>
+            <a href="{% url 'register' %}" class="link-register">Create Account</a>
+        </div>
+
+        <!-- Book showcase -->
+        <div class="book-showcase">
+            <div class="book-card">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg" alt="Book 1">
+                <p>The Great Gatsby</p>
+            </div>
+            <div class="book-card">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/91bYsX41DVL.jpg" alt="Book 2">
+                <p>To Kill a Mockingbird</p>
+            </div>
+            <div class="book-card">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/81iqZ2HHD-L.jpg" alt="Book 3">
+                <p>1984</p>
+            </div>
+            <div class="book-card">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg" alt="Book 4">
+                <p>Pride and Prejudice</p>
+            </div>
+        </div>
     </div>
-</section>
-
-<!-- POPULAR BOOKS -->
-<div style="display:flex; gap:15px; overflow-x:auto;">
-    {% for book in books %}
-    <div style="min-width:120px; text-align:center;">
-        {% if book.thumbnail %}
-            <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
-        {% endif %}
-        <small>{{ book.title }}</small>
-    </div>
-    {% endfor %}
-</div>
-
-<!-- FEATURES -->
-<section style="margin-top:60px;">
-    <h2>What You Can Do</h2>
-
-    <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
-        gap:20px;
-        margin-top:20px;
-    ">
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            📚 Track your books
-        </div>
-
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            ⭐ Rate them
-        </div>
-
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            📝 Write reviews
-        </div>
-
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            🔍 Discover new books
-        </div>
-    </div>
-</section>
-
-<!-- CTA -->
-<section style="text-align:center; margin-top:60px;">
-    <h2>Start your reading journey today</h2>
-    <a href="{% url 'register' %}" style="
-        display:inline-block;
-        margin-top:15px;
-        background:#3b82f6;
-        padding:10px 25px;
-        border-radius:8px;
-        color:white;
-        text-decoration:none;
-    ">
-        Sign Up for Free
-    </a>
-</section>
-
-{% endblock %}
+</body>
+</html>
