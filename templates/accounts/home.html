@@ -4,9 +4,9 @@
 
 <!-- HERO -->
 <section style="text-align:center; margin-top:40px;">
-    <h1 style="font-size:3rem;">Okuduğun kitapları keşfet, kaydet, paylaş</h1>
+    <h1 style="font-size:3rem;">Track, discover, and share the books you read</h1>
     <p style="color:#aaa; margin-top:10px;">
-        NetBox ile kitap geçmişini oluştur ve yeni kitaplar keşfet
+        Build your reading history and explore new books with NetBox
     </p>
 
     <div style="margin-top:20px;">
@@ -17,18 +17,18 @@
             color:white;
             text-decoration:none;
             margin-right:10px;
-        ">Başla</a>
+        ">Get Started</a>
 
         <a href="{% url 'login' %}" style="
             color:#3b82f6;
             text-decoration:none;
-        ">Giriş Yap</a>
+        ">Login</a>
     </div>
 </section>
 
-<!-- POPÜLER KİTAPLAR -->
+<!-- POPULAR BOOKS -->
 <section style="margin-top:60px;">
-    <h2>Popüler Kitaplar</h2>
+    <h2>Popular Books</h2>
 
     <div style="
         display:flex;
@@ -36,7 +36,6 @@
         overflow-x:auto;
         padding-top:15px;
     ">
-        <!-- örnek kitap kartları -->
         {% for i in "12345678" %}
         <div style="
             min-width:120px;
@@ -51,7 +50,7 @@
                 border-radius:6px;
                 margin-bottom:10px;
             "></div>
-            <small>Kitap {{ i }}</small>
+            <small>Book {{ i }}</small>
         </div>
         {% endfor %}
     </div>
@@ -59,7 +58,7 @@
 
 <!-- FEATURES -->
 <section style="margin-top:60px;">
-    <h2>Ne Yapabilirsin?</h2>
+    <h2>What You Can Do</h2>
 
     <div style="
         display:grid;
@@ -68,26 +67,26 @@
         margin-top:20px;
     ">
         <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            📚 Kitaplarını kaydet
+            📚 Track your books
         </div>
 
         <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            ⭐ Puan ver
+            ⭐ Rate them
         </div>
 
         <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            📝 Yorum yaz
+            📝 Write reviews
         </div>
 
         <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            🔍 Yeni kitap keşfet
+            🔍 Discover new books
         </div>
     </div>
 </section>
 
 <!-- CTA -->
 <section style="text-align:center; margin-top:60px;">
-    <h2>Hemen başla</h2>
+    <h2>Start your reading journey today</h2>
     <a href="{% url 'register' %}" style="
         display:inline-block;
         margin-top:15px;
@@ -97,7 +96,7 @@
         color:white;
         text-decoration:none;
     ">
-        Ücretsiz Kayıt Ol
+        Sign Up for Free
     </a>
 </section>
 
