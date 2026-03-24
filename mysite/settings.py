@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -80,9 +82,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
-    )
+'default': dj_database_url.config(default='postgresql://my_django_db_x3mk_user:7Ry4Wchbkc1BJGaK3NHbCNRjfsSRHruB@dpg-d6o2f0vkijhs73a0b6ig-a.frankfurt-postgres.render.com/my_django_db_x3mk')
 }
 
 
