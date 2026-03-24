@@ -30,30 +30,16 @@
 <section style="margin-top:60px;">
     <h2>Popular Books</h2>
 
-    <div style="
-        display:flex;
-        gap:15px;
-        overflow-x:auto;
-        padding-top:15px;
-    ">
-        {% for i in "12345678" %}
-        <div style="
-            min-width:120px;
-            background:#1c1c1c;
-            padding:10px;
-            border-radius:10px;
-            text-align:center;
-        ">
-            <div style="
-                height:160px;
-                background:#2a2a2a;
-                border-radius:6px;
-                margin-bottom:10px;
-            "></div>
-            <small>Book {{ i }}</small>
+        <div style="display:flex; gap:15px; overflow-x:auto;">
+            {% for book in books %}
+            <div style="min-width:120px; text-align:center;">
+                {% if book.thumbnail %}
+                    <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
+                {% endif %}
+                <small>{{ book.title }}</small>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
 </section>
 
 <!-- FEATURES -->
