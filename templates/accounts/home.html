@@ -35,8 +35,7 @@
         <div style="min-width:120px; text-align:center;">
             {% if book.thumbnail %}
                 <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
-            {% else %}
-                <img src="{% static 'images/default.jpg' %}" alt="No cover">
+            
             {% endif %}
             <small>{{ book.title }}</small>
         </div>
