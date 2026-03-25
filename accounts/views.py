@@ -4,9 +4,6 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import requests
 
-import requests
-from django.shortcuts import render
-
 def home(request):
     if request.user.is_authenticated:
         url = "https://www.googleapis.com/books/v1/volumes?q=subject:fiction&maxResults=10"
