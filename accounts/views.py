@@ -4,23 +4,28 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import requests
 
+import requests
+from django.shortcuts import render
+
 def home(request):
     if request.user.is_authenticated:
-        # GİRİŞ YAPMIŞ USER → kitaplı sayfa
-        url = "https://www.googleapis.com/books/v1/volumes?q=bestseller"
+        url = "https://www.googleapis.com/books/v1/volumes?q=subject:fiction&maxResults=10"
         response = requests.get(url)
         data = response.json()
 
         books = []
+
         for item in data.get('items', []):
-            volume = item.get('volumeInfo', {})
+            volume = item['volumeInfo']
+
             books.append({
                 'title': volume.get('title'),
+                'author': volume.get('authors', ['Unknown'])[0],
                 'thumbnail': volume.get('imageLinks', {}).get('thumbnail')
             })
 
-        return render(request, 'accounts/home_logged_in.html', {'books': books})
-
+        return render(request, 'accounts/home.html', {'books': books})
+    
     else:
         # GİRİŞ YAPMAMIŞ → landing page
         return render(request, 'accounts/landing.html')
