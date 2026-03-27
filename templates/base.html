@@ -159,7 +159,6 @@
 
     <nav>
         {% if user.is_authenticated %}
-            <button type="submit" class="search-btn">🔍</button>
             <a href="{% url 'profile' %}">{{ user.username }}</a>
         {% endif %}
     </nav>
