@@ -15,10 +15,11 @@ def home(request):
         for item in data.get('items', []):
             volume = item['volumeInfo']
 
+            authors = volume.get('authors', [])
             books.append({
-                'title': volume.get('title'),
-                'author': volume.get('authors', ['Unknown'])[0],
-                'thumbnail': volume.get('imageLinks', {}).get('thumbnail')
+                'title': volume.get('title', 'No Title'),
+                'authors': authors if authors else ['Unknown'],
+                'thumbnail': volume.get('imageLinks', {}).get('thumbnail'),
             })
 
         return render(request, 'accounts/home_logged_in.html', {'books': books})
@@ -28,33 +29,23 @@ def home(request):
         return render(request, 'accounts/landing.html')
 
 
-import requests
-from django.shortcuts import render
-
 def search(request):
-    query = request.GET.get('q')
+    query = request.GET.get('q', '').strip()
 
     books = []
 
     if query:
-        url = f"https://www.googleapis.com/books/v1/volumes?q={query}"
-
+        url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=20"
         response = requests.get(url)
         data = response.json()
-
         for item in data.get('items', []):
             volume = item.get('volumeInfo', {})
-
+            authors = volume.get('authors', [])
             books.append({
-                'title': volume.get('title'),
-                'authors': volume.get('authors', []),
+                'title': volume.get('title', 'No Title'),
+                'authors': authors if authors else ['Unknown'],
                 'thumbnail': volume.get('imageLinks', {}).get('thumbnail'),
             })
-
-    return render(request, 'accounts/search.html', {
-        'books': books,
-        'query': query
-    })
 
 def register(request):
     if request.method == 'POST':
