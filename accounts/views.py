@@ -28,24 +28,32 @@ def home(request):
         return render(request, 'accounts/landing.html')
 
 
+import requests
+from django.shortcuts import render
+
 def search(request):
     query = request.GET.get('q')
-    results = []
+
+    books = []
 
     if query:
-        # Şimdilik statik liste üzerinden arama yapacağız
-        books = [
-            {"title": "1984", "image": "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg"},
-            {"title": "Sapiens", "image": "https://images-na.ssl-images-amazon.com/images/I/713jIoMO3UL.jpg"},
-            {"title": "Atomic Habits", "image": "https://images-na.ssl-images-amazon.com/images/I/91bYsX41DVL.jpg"},
-            {"title": "The Alchemist", "image": "https://images-na.ssl-images-amazon.com/images/I/71aFt4+OTOL.jpg"},
-        ]
+        url = f"https://www.googleapis.com/books/v1/volumes?q={query}"
 
-        results = [book for book in books if query.lower() in book["title"].lower()]
+        response = requests.get(url)
+        data = response.json()
 
-    return render(request, "accounts/search.html", {
-        "results": results,
-        "query": query
+        for item in data.get('items', []):
+            volume = item.get('volumeInfo', {})
+
+            books.append({
+                'title': volume.get('title'),
+                'authors': volume.get('authors', []),
+                'thumbnail': volume.get('imageLinks', {}).get('thumbnail'),
+            })
+
+    return render(request, 'accounts/search.html', {
+        'books': books,
+        'query': query
     })
 
 def register(request):

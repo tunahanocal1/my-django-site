@@ -1,20 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Search Results</h2>
 
-{% if query %}
-    <p>Results for "{{ query }}":</p>
-{% endif %}
+<h2>Results for "{{ query }}"</h2>
 
-<div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:20px; margin-top:20px;">
-    {% for book in results %}
-        <div style="background:#1a1a1a; padding:10px; border-radius:10px;">
-            <img src="{{ book.image }}" style="width:100%;">
-            <p>{{ book.title }}</p>
-        </div>
-    {% empty %}
-        <p>Sonuç bulunamadı.</p>
+<div style="
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+    gap:20px;
+    margin-top:20px;
+">
+    {% for book in books %}
+    <div style="background:#1c1c1c; padding:10px; border-radius:10px;">
+        
+        {% if book.thumbnail %}
+            <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
+        {% endif %}
+
+        <p style="margin-top:10px; font-size:14px;">
+            {{ book.title }}
+        </p>
+
+        <small style="color:#aaa;">
+            {{ book.authors|join:", " }}
+        </small>
+    </div>
     {% endfor %}
 </div>
 
