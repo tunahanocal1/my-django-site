@@ -1,24 +1,46 @@
 {% extends 'base.html' %}
 
-{% block content %}
-
 {% load static %}
 
-<!-- HERO IMAGE -->
-<div class="hero" style="background-image: url('{% static "images/hero2.jpg" %}')">
-    <div class="hero-overlay">
-        <h1>Discover Your Next Favorite Book</h1>
-        <p>Track what you read, explore new books, and build your personal library.</p>
-    </div>
-</div>
+{% block content %}
 
 <!-- HERO -->
-<section style="text-align:center; margin-top:40px;">
-    <h1 style="font-size:3rem;">Track, discover, and share the books you read</h1>
-    <p style="color:#aaa; margin-top:10px;">
-        Build your reading history and explore new books with NetBox
-    </p>
+<section style="
+    position: relative;
+    height: 500px;
+    background: url('{% static "images/hero2.jpg" %}') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    padding: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+">
+    <!-- karartma efekti -->
+    <div style="
+        position:absolute;
+        inset:0;
+        background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
+    "></div>
 
+    <!-- içerik -->
+    <div style="position:relative; max-width:600px;">
+        <h1 style="font-size:3rem; margin-bottom:10px;">
+            Track, discover, and share the books you read
+        </h1>
+        <p style="color:#ccc; margin-bottom:20px;">
+            Build your reading history and explore new books with NetBox
+        </p>
+
+        <a href="#" style="
+            background:#00c030;
+            padding:12px 20px;
+            border-radius:8px;
+            color:white;
+            font-weight:500;
+        ">
+            Get Started
+        </a>
+    </div>
 </section>
 
 <!-- POPULAR BOOKS -->
