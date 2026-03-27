@@ -122,6 +122,44 @@
             max-width: 600px;
         }
 
+        /* INPUT DARK MODE 🔥 */
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            background-color: #1b1b1b;
+            color: #e1e4e8;
+            border: 1px solid #333;
+            padding: 0.6rem;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        input::placeholder {
+            color: #8b949e;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.4);
+        }
+
+        /* BUTTON */
+        button,
+        input[type="submit"] {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover,
+        input[type="submit"]:hover {
+            background-color: #2563eb;
+        }
+
         /* MAIN */
         main {
             padding: 2rem;
@@ -167,14 +205,12 @@
 
 {% load static %}
 
-<!-- HERO IMAGE -->
-{% if user.is_authenticated %}
-
-{% else %}
+<!-- HERO IMAGE sadece login değilse -->
+{% if not user.is_authenticated %}
 <div class="hero" style="background-image: url('{% static "images/hero.jpg" %}')">
     <div class="hero-overlay">
-        <h1></h1>
-        <p></p>
+        <h1>Discover Your Next Favorite Book</h1>
+        <p>Track what you read, explore new books, and build your personal library.</p>
     </div>
 </div>
 {% endif %}
