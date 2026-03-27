@@ -14,8 +14,8 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #0f1115;
-            color: #e5e7eb;
+            background-color: #0d1117; /* Dark Slate */
+            color: #e1e4e8; /* Soft White */
             line-height: 1.6;
         }
 
@@ -30,17 +30,17 @@
             align-items: center;
             justify-content: space-between;
             padding: 1rem 2rem;
-            background-color: #1a1c23;
+            background-color: #161b22; /* Charcoal */
         }
 
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #3b82f6;
+            color: #3fa9f5; /* Electric Blue */
         }
 
         .logo:hover {
-            color: #60a5fa;
+            color: #60caff;
         }
 
         /* SEARCH */
@@ -54,7 +54,7 @@
         .search-box {
             display: flex;
             align-items: center;
-            background: #21232a;
+            background: #21262d; /* Midnight Blue */
             border-radius: 999px;
             padding: 0.4rem 0.8rem;
             width: 100%;
@@ -70,27 +70,27 @@
             flex: 1;
             border: none;
             background: transparent;
-            color: #e5e7eb;
+            color: #e1e4e8;
             padding: 0.6rem 0.5rem;
             font-size: 0.95rem;
         }
 
         .search-input::placeholder {
-            color: #9ca3af;
+            color: #8b949e; /* Gray */
         }
 
         .search-btn {
             background: none;
             border: none;
             cursor: pointer;
-            color: #9ca3af;
+            color: #8b949e;
             display: flex;
             align-items: center;
             transition: color 0.2s ease;
         }
 
         .search-btn:hover {
-            color: #ffffff;
+            color: #e1e4e8;
         }
 
         /* NAV */
@@ -98,11 +98,12 @@
             margin-left: 1rem;
             padding: 0.4rem 0.8rem;
             border-radius: 0.5rem;
+            background-color: #161b22;
             transition: background 0.2s ease, color 0.2s ease;
         }
 
         nav a:hover {
-            background-color: #2a2c36;
+            background-color: #21262d;
         }
 
         /* MAIN */
@@ -117,9 +118,26 @@
             text-align: center;
             padding: 1.5rem 2rem;
             font-size: 0.85rem;
-            color: #6b7280;
+            color: #8b949e;
         }
 
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-form {
+                width: 100%;
+                margin: 1rem 0;
+            }
+
+            nav a {
+                margin-left: 0.5rem;
+                margin-top: 0.5rem;
+            }
+        }
     </style>
 </head>
 
