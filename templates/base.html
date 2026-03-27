@@ -168,8 +168,15 @@
     </nav>
 </header>
 
+{% load static %}
 
-
+<!-- HERO IMAGE -->
+<div class="hero" style="background-image: url('{% static "images/hero.jpg" %}')">
+    <div class="hero-overlay">
+        <h1>Discover Your Next Favorite Book</h1>
+        <p>Track what you read, explore new books, and build your personal library.</p>
+    </div>
+</div>
 
 <main>
     {% block content %}
