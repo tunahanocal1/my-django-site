@@ -8,43 +8,48 @@
     <style>
         body {
             margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #ffffff;
         }
 
-        /* HEADER */
         header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 15px 30px;
-            background-color: #1c1c1c;
+            padding: 1rem 2rem;
             border-bottom: 1px solid #333;
+            background-color: #1c1c1c;
         }
 
+        /* LOGO */
         .logo {
-            font-size: 26px;
+            font-size: 2rem;
             font-weight: bold;
             color: #3b82f6;
             text-decoration: none;
+            margin-right: 20px;
         }
 
-        /* SEARCH BAR */
-        .search-container {
+        .logo:hover {
+            color: #fff;
+        }
+
+        /* SEARCH */
+        .search-form {
             flex: 1;
             display: flex;
             justify-content: center;
         }
 
-        .search-form {
+        .search-box {
             display: flex;
             align-items: center;
-            width: 60%;
-            max-width: 500px;
             background: #2a2a2a;
             border-radius: 999px;
-            padding: 6px 12px;
+            padding: 5px 12px;
+            width: 60%;
+            max-width: 500px;
         }
 
         .search-input {
@@ -54,7 +59,6 @@
             color: white;
             padding: 10px;
             outline: none;
-            font-size: 14px;
         }
 
         .search-input::placeholder {
@@ -64,8 +68,8 @@
         .search-btn {
             background: none;
             border: none;
-            cursor: pointer;
             color: #aaa;
+            cursor: pointer;
             display: flex;
             align-items: center;
         }
@@ -75,14 +79,17 @@
         }
 
         /* NAV */
+        nav {
+            margin-left: 20px;
+        }
+
         nav a {
-            margin-left: 10px;
-            padding: 8px 14px;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
             background-color: #1f2937;
-            color: white;
-            border-radius: 6px;
+            color: #fff;
+            border-radius: 0.5rem;
             text-decoration: none;
-            font-size: 14px;
         }
 
         nav a:hover {
@@ -91,6 +98,8 @@
 
         main {
             padding: 2rem;
+            max-width: 800px;
+            margin: auto;
         }
 
         footer {
@@ -101,6 +110,7 @@
         }
     </style>
 </head>
+
 <body>
 
 <header>
@@ -109,8 +119,8 @@
 
     <!-- SEARCH (SADECE LOGIN OLUNCA) -->
     {% if user.is_authenticated %}
-    <div class="search-container">
-        <form action="{% url 'search' %}" method="GET" class="search-form">
+    <form action="{% url 'search' %}" method="GET" class="search-form">
+        <div class="search-box">
             <input type="text" name="q" placeholder="Type here to search.." class="search-input">
             <button type="submit" class="search-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" 
@@ -123,8 +133,8 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
             </button>
-        </form>
-    </div>
+        </div>
+    </form>
     {% endif %}
 
     <!-- NAV -->
