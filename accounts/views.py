@@ -30,22 +30,31 @@ def home(request):
 
 
 def search(request):
-    query = request.GET.get('q', '').strip()
-
+    query = request.GET.get('q', '').strip()  # Boş gelirse boş string
     books = []
 
-    if query:
+    if query:  # Sadece query varsa API çağrısı yap
         url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=20"
-        response = requests.get(url)
-        data = response.json()
-        for item in data.get('items', []):
-            volume = item.get('volumeInfo', {})
-            authors = volume.get('authors', [])
-            books.append({
-                'title': volume.get('title', 'No Title'),
-                'authors': authors if authors else ['Unknown'],
-                'thumbnail': volume.get('imageLinks', {}).get('thumbnail'),
-            })
+        try:
+            response = requests.get(url)
+            data = response.json()
+            for item in data.get('items', []):
+                volume = item.get('volumeInfo', {})
+                authors = volume.get('authors', [])
+                books.append({
+                    'title': volume.get('title', 'No Title'),
+                    'authors': authors if authors else ['Unknown'],
+                    'thumbnail': volume.get('imageLinks', {}).get('thumbnail'),
+                })
+        except Exception as e:
+            print(f"Google Books API error: {e}")
+            books = []
+
+    # Her durumda render dön
+    return render(request, 'accounts/search.html', {
+        'books': books,
+        'query': query
+    })
 
 def register(request):
     if request.method == 'POST':
