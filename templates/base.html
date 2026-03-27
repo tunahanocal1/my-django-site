@@ -161,9 +161,6 @@
     <nav>
         {% if user.is_authenticated %}
             <a href="{% url 'profile' %}">{{ user.username }}</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}">Register</a>
         {% endif %}
     </nav>
 </header>
@@ -171,12 +168,21 @@
 {% load static %}
 
 <!-- HERO IMAGE -->
-<div class="hero" style="background-image: url('{% static "images/hero.jpg" %}')">
+{% if user.is_authenticated %}
+<div class="hero" style="background-image: url('{% static "images/hero2.jpg" %}')">
     <div class="hero-overlay">
         <h1>Discover Your Next Favorite Book</h1>
         <p>Track what you read, explore new books, and build your personal library.</p>
     </div>
 </div>
+{% else %}
+<div class="hero" style="background-image: url('{% static "images/hero.jpg" %}')">
+    <div class="hero-overlay">
+        <h1></h1>
+        <p></p>
+    </div>
+</div>
+{% endif %}
 
 <main>
     {% block content %}
