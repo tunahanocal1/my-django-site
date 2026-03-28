@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import requests
+from .models import BookReview, UserBook # UserBook modelini ekledik
+from .forms import ReviewForm
 
 def home(request):
     if request.user.is_authenticated:
@@ -154,10 +156,10 @@ def book_detail(request, olid):
 
 @login_required
 def profile_view(request):
-    # Bu kısımlar senin modellerine (BookReview veya ayrı bir UserBook tablosu) göre değişir
-    read_books = # Kullanıcının "Okudum" işaretledikleri
-    liked_books = # Kullanıcının "Beğendim" işaretledikleri
-    watchlist_books = # Kullanıcının "Listem" dedikleri
+    # Kullanıcıya özel kitap listelerini veritabanından çekiyoruz
+    read_books = UserBook.objects.filter(user=request.user, is_read=True)
+    liked_books = UserBook.objects.filter(user=request.user, is_liked=True)
+    watchlist_books = UserBook.objects.filter(user=request.user, is_watchlist=True)
     
     return render(request, 'accounts/profile.html', {
         'read_books': read_books,
