@@ -150,3 +150,17 @@ def book_detail(request, olid):
         'avg_rating': avg_rating,
         'thumbnail': thumbnail_url # Şablona bu isimle gönderiyoruz
     })
+
+
+@login_required
+def profile_view(request):
+    # Bu kısımlar senin modellerine (BookReview veya ayrı bir UserBook tablosu) göre değişir
+    read_books = # Kullanıcının "Okudum" işaretledikleri
+    liked_books = # Kullanıcının "Beğendim" işaretledikleri
+    watchlist_books = # Kullanıcının "Listem" dedikleri
+    
+    return render(request, 'accounts/profile.html', {
+        'read_books': read_books,
+        'liked_books': liked_books,
+        'watchlist_books': watchlist_books,
+    })

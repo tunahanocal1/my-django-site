@@ -1,27 +1,195 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Profile</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<div style="background:#1e1e1e; padding:20px; border-radius:10px;">
-    <h2>{{ user.username }}</h2>
-    <p>{{ user.email }}</p>
-</div>
+<style>
+    .profile-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
 
-<!-- Link gibi create account -->
-<p style="margin-top: 1rem; text-align:center;">
+    /* ÜST KISIM: KULLANICI BİLGİLERİ */
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background: #1e1e1e;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 40px;
+        border: 1px solid #333;
+    }
 
-    <a href="{% url 'logout' %}" style="
-        width: 100%;
-        padding: 0.6rem;
-        border-radius: 0.5rem;
-        border: none;
-        background-color: #3b82f6;
-        color: #fff;
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        background: #3b82f6;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
         font-weight: bold;
-        cursor: pointer;
-    ">
-        Logout
-    </a>
-</p>
+        color: white;
+    }
+
+    .user-info h2 { margin: 0; font-size: 1.8rem; }
+    .user-info p { margin: 5px 0 0; color: #9ab; }
+
+    /* KİTAP BÖLÜMLERİ (Read, Like, List) */
+    .shelf-section {
+        margin-bottom: 50px;
+    }
+
+    .shelf-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .shelf-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1.5px;
+        color: #9ab;
+    }
+
+    .shelf-title i { font-size: 1.2rem; }
+    .see-all-btn {
+        color: #9ab;
+        font-size: 0.8rem;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+    .see-all-btn:hover { color: #fff; }
+
+    /* KİTAP SIRALAMASI */
+    .book-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+    }
+
+    .book-item {
+        position: relative;
+        transition: transform 0.2s;
+    }
+
+    .book-item:hover { transform: scale(1.05); }
+
+    .book-item img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #333;
+    }
+
+    .logout-box {
+        text-align: center;
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid #222;
+    }
+
+    .logout-btn {
+        display: inline-block;
+        padding: 10px 30px;
+        background: transparent;
+        border: 1px solid #444;
+        color: #9ab;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+    .logout-btn:hover { background: #cc3333; color: white; border-color: #cc3333; }
+</style>
+
+<div class="profile-container">
+
+    <div class="profile-header">
+        <div class="user-avatar">
+            {{ user.username|first|upper }}
+        </div>
+        <div class="user-info">
+            <h2>{{ user.username }}</h2>
+            <p>{{ user.email }}</p>
+        </div>
+    </div>
+
+    <section class="shelf-section">
+        <div class="shelf-header">
+            <div class="shelf-title" style="color: #00c030;">
+                <i class="fas fa-eye"></i> READ
+            </div>
+            <a href="#" class="see-all-btn">SEE ALL</a>
+        </div>
+        <div class="book-grid">
+            {% for book in read_books|slice:":5" %}
+                <div class="book-item">
+                    <a href="{% url 'book_detail' book.olid %}">
+                        <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                    </a>
+                </div>
+            {% empty %}
+                <p style="color:#555; grid-column: span 5;">Henüz kitap işaretlemedin.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="shelf-section">
+        <div class="shelf-header">
+            <div class="shelf-title" style="color: #ff8000;">
+                <i class="fas fa-heart"></i> LIKED
+            </div>
+            <a href="#" class="see-all-btn">SEE ALL</a>
+        </div>
+        <div class="book-grid">
+            {% for book in liked_books|slice:":5" %}
+                <div class="book-item">
+                    <a href="{% url 'book_detail' book.olid %}">
+                        <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                    </a>
+                </div>
+            {% empty %}
+                <p style="color:#555; grid-column: span 5;">Beğendiğin kitaplar burada görünecek.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="shelf-section">
+        <div class="shelf-header">
+            <div class="shelf-title" style="color: #3b82f6;">
+                <i class="fas fa-folder-plus"></i> WATCHLIST
+            </div>
+            <a href="#" class="see-all-btn">SEE ALL</a>
+        </div>
+        <div class="book-grid">
+            {% for book in watchlist_books|slice:":5" %}
+                <div class="book-item">
+                    <a href="{% url 'book_detail' book.olid %}">
+                        <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                    </a>
+                </div>
+            {% empty %}
+                <p style="color:#555; grid-column: span 5;">Listeniz henüz boş.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="logout-box">
+        <a href="{% url 'logout' %}" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> LOGOUT
+        </a>
+    </div>
+
+</div>
 {% endblock %}
