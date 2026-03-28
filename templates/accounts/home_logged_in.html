@@ -2,62 +2,75 @@
 
 {% block content %}
 
-<!-- HERO -->
-<section style="text-align:center; margin-top:40px;">
-    <h1 style="font-size:3rem;">Track, discover, and share the books you read</h1>
-    <p style="color:#aaa; margin-top:10px;">
-        Build your reading history and explore new books with NetBox
-    </p>
-
+<section style="margin-bottom: 50px;">
+    <h1 style="font-size: 2.2rem; font-weight: 800; margin: 0;">Welcome, {{ user.username }}!</h1>
+    <p style="color: #8b949e; margin-top: 8px;">Explore the library or check your progress.</p>
 </section>
 
-<!-- POPULAR BOOKS -->
-<section style="margin-top:60px;">
-    <h2>Popular Books</h2>
+<section>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1.5px; color: #f0f6fc;">Popular Right Now</h2>
+    </div>
 
-    <div style="display:flex; gap:15px; overflow-x:auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px;">
         {% for book in books %}
-        <div style="min-width:120px; text-align:center;">
-            {% if book.thumbnail %}
-                <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
-            {% endif %}
-            <small>{{ book.title }}</small>
+        <div class="book-card">
+            <a href="{% url 'book_detail' book.olid %}" style="display: block;">
+                <div style="position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 2/3; box-shadow: 0 8px 16px rgba(0,0,0,0.4);">
+                    {% if book.thumbnail %}
+                        <img src="{{ book.thumbnail }}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.3s;">
+                    {% else %}
+                        <div style="width: 100%; height: 100%; background: #21262d; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-book" style="font-size: 2rem; color: #30363d;"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e1e4e8;">
+                    {{ book.title }}
+                </p>
+            </a>
         </div>
         {% endfor %}
     </div>
 </section>
 
-<!-- FEATURES -->
-<section style="margin-top:60px;">
-    <h2>What You Can Do</h2>
-
-    <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
-        gap:20px;
-        margin-top:20px;
-    ">
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            📚 Track your books
+<section style="margin-top: 80px;">
+    <h2 style="font-size: 1.1rem; text-transform: uppercase; color: #f0f6fc; margin-bottom: 25px;">What You Can Do</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+        
+        <div class="feature-card">
+            <i class="fas fa-scroll" style="color: #3b82f6; font-size: 1.5rem; margin-bottom: 15px;"></i>
+            <h3>Track History</h3>
+            <p>Keep a digital shelf of every book you've ever finished.</p>
         </div>
 
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            ⭐ Rate them
+        <div class="feature-card">
+            <i class="fas fa-star" style="color: #f59e0b; font-size: 1.5rem; margin-bottom: 15px;"></i>
+            <h3>Rate & Review</h3>
+            <p>Share your thoughts and give stars to your favorites.</p>
         </div>
 
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            📝 Write reviews
+        <div class="feature-card">
+            <i class="fas fa-compass" style="color: #10b981; font-size: 1.5rem; margin-bottom: 15px;"></i>
+            <h3>Discover</h3>
+            <p>Find your next great read through our search engine.</p>
         </div>
 
-        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
-            🔍 Discover new books
-        </div>
     </div>
 </section>
 
-<!-- CTA -->
-<section style="text-align:center; margin-top:60px;">
-    <h2>Start your reading journey today</h2>
-</section>
+<style>
+    .book-card:hover img { transform: scale(1.05); }
+    .feature-card {
+        background: rgba(28, 28, 28, 0.4);
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid #21262d;
+        transition: 0.3s;
+    }
+    .feature-card:hover { background: rgba(59, 130, 246, 0.05); border-color: #3b82f6; }
+    .feature-card h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
+    .feature-card p { margin: 0; font-size: 0.9rem; color: #8b949e; line-height: 1.5; }
+</style>
 
 {% endblock %}
