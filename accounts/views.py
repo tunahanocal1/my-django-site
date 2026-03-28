@@ -4,21 +4,6 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import requests
 
-def landing(request):
-    # Eğer kullanıcı zaten giriş yapmışsa ana sayfaya yönlendir
-    if request.user.is_authenticated:
-        return redirect('home')
-    
-    # Giriş ve Kayıt formlarını oluştur
-    login_form = AuthenticationForm()
-    register_form = UserCreationForm()
-
-    context = {
-        'login_form': login_form,
-        'register_form': register_form,
-    }
-    return render(request, 'landing.html', context)
-
 def home(request):
     if request.user.is_authenticated:
         # Open Library'den fiction kategorisinde kitaplar (search by subject)

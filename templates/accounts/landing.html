@@ -1,221 +1,98 @@
-{% extends 'base.html' %}
 {% load static %}
-
-{% block content %}
-<style>
-    /* HERO SECTION (Referans görselindeki gibi dev ve ortalanmış) */
-    .hero-landing {
-        height: 100vh; /* Tam ekran yükseklik */
-        width: 100%;
-        background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.9)), 
-                          url('{% static "images/hero.jpg" %}');
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 0 20px;
-        margin-top: -80px; /* Header'ın altına girmesi için */
-    }
-
-    .hero-landing h1 {
-        font-size: 3.5rem;
-        font-weight: 800;
-        margin-bottom: 1rem;
-        max-width: 800px;
-        line-height: 1.1;
-    }
-
-    .hero-landing p {
-        font-size: 1.25rem;
-        color: #ccc;
-        margin-bottom: 2.5rem;
-        max-width: 600px;
-    }
-
-    .btn-primary {
-        padding: 1rem 2.5rem;
-        background-color: #00c030; /* Yeşil buton */
-        color: white;
-        font-size: 1.1rem;
-        font-weight: 700;
-        border-radius: 999px;
-        transition: transform 0.1s;
-    }
-    .btn-primary:hover {
-        transform: scale(1.05);
-        background-color: #00e03a;
-    }
-
-    /* MODAL (POP-UP) STYLES */
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.85);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 2000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .modal-overlay.active {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .modal-content {
-        background-color: #161b22;
-        padding: 2.5rem;
-        border-radius: 1rem;
-        width: 100%;
-        max-width: 400px;
-        border: 1px solid #30363d;
-        position: relative;
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.active .modal-content {
-        transform: scale(1);
-    }
-
-    .close-modal {
-        position: absolute;
-        top: 1rem;
-        right: 1.2rem;
-        font-size: 1.5rem;
-        background: none;
-        border: none;
-        color: #8b949e;
-        cursor: pointer;
-    }
-    .close-modal:hover { color: #fff; }
-
-    .modal-content h2 {
-        margin-top: 0;
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
-
-    /* Django Form Styling inside Modal */
-    .modal-content form p { margin-bottom: 1rem; }
-    .modal-content label { display: block; margin-bottom: 0.25rem; color: #8b949e; font-size: 0.9rem; }
-    .modal-content input[type="text"],
-    .modal-content input[type="password"],
-    .modal-content input[type="email"] {
-        width: 100%;
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        border: 1px solid #30363d;
-        background-color: #0d1117;
-        color: #fff;
-    }
-
-    .submit-btn {
-        width: 100%;
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        border: none;
-        background-color: #3b82f6;
-        color: #fff;
-        font-weight: bold;
-        font-size: 1rem;
-        cursor: pointer;
-        margin-top: 1rem;
-    }
-    .submit-btn:hover { background-color: #2563eb; }
-
-    .modal-footer {
-        margin-top: 1.5rem;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #8b949e;
-    }
-    .modal-footer a { color: #3b82f6; font-weight: 500; }
-</style>
-
-<section class="hero-landing">
-    <h1>Track, discover, and share the books you read</h1>
-    <p>Build your reading history and explore new books with NetBox.</p>
-    <a href="#" class="btn-primary" id="openRegisterHero">Get started — it’s free!</a>
-</section>
-
-<div class="modal-overlay" id="loginModal">
-    <div class="modal-content">
-        <button class="close-modal">&times;</button>
-        <h2>Login to NetBox</h2>
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            {{ login_form.as_p }}
-            <input type="submit" value="Login" class="submit-btn">
-        </form>
-        <div class="modal-footer">
-            New to NetBox? <a href="#" id="switchToRegister">Create an account</a>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="registerModal">
-    <div class="modal-content">
-        <button class="close-modal">&times;</button>
-        <h2>Create your account</h2>
-        <form method="POST" action="{% url 'register' %}">
-            {% csrf_token %}
-            {{ register_form.as_p }}
-            <input type="submit" value="Register" class="submit-btn">
-        </form>
-        <div class="modal-footer">
-            Already have an account? <a href="#" id="switchToLogin">Login</a>
-        </div>
-    </div>
-</div>
-
-<script>
-    const loginModal = document.getElementById('loginModal');
-    const registerModal = document.getElementById('registerModal');
-    const closeBtns = document.querySelectorAll('.close-modal');
-
-    // Açma Fonksiyonları
-    function openLogin() {
-        registerModal.classList.remove('active');
-        loginModal.classList.add('active');
-    }
-
-    function openRegister() {
-        loginModal.classList.remove('active');
-        registerModal.classList.add('active');
-    }
-
-    function closeModals() {
-        loginModal.classList.remove('active');
-        registerModal.classList.add('active'); // Küçük hata düzeltmesi: registerModal.classList.remove('active');
-    }
-
-    // Event Listeners (Landing içindeki butonlar)
-    document.getElementById('openRegisterHero').addEventListener('click', (e) => { e.preventDefault(); openRegister(); });
-    document.getElementById('switchToRegister').addEventListener('click', (e) => { e.preventDefault(); openRegister(); });
-    document.getElementById('switchToLogin').addEventListener('click', (e) => { e.preventDefault(); openLogin(); });
-
-    // Event Listeners (Header içindeki linkler - base.html'den gelir)
-    document.getElementById('openLoginNav').addEventListener('click', (e) => { e.preventDefault(); openLogin(); });
-    document.getElementById('openRegisterNav').addEventListener('click', (e) => { e.preventDefault(); openRegister(); });
-
-    // Kapatma Event'leri
-    closeBtns.forEach(btn => btn.addEventListener('click', closeModals));
-
-    window.addEventListener('click', (e) => {
-        if (e.target === loginModal || e.target === registerModal) {
-            closeModals();
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NetBox</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            color: white;
         }
-    });
-</script>
 
-{% endblock %}
+        .hero {
+            height: 100vh;
+            background: url("{% static 'images/hero.jpg' %}") no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: #00c030;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            z-index: 3;
+        }
+
+        .top-bar a {
+            margin-left: 20px;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="{% url 'home' %}" class="navbar-brand">NetBox</a>
+    </header>
+    <div class="hero">
+        <div class="overlay"></div>
+
+        <div class="content">
+            <h1>Track books you’ve read</h1>
+            <p>Save what you want to read. Share with friends.</p>
+            <a href="{% url 'register' %}" class="btn">Get started — it’s free!</a>
+        </div>
+    </div>
+</body>
+</html>
