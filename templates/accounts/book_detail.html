@@ -2,10 +2,8 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
-    /* ANA KONTEYNER */
+    /* ANA YAPI */
     .container-detail {
         max-width: 1050px;
         margin: 40px auto;
@@ -17,7 +15,7 @@
         align-items: start;
     }
 
-    /* SOL KOLON: KİTAP KAPAĞI */
+    /* SOL KOLON */
     .book-aside {
         width: 210px;
         position: sticky;
@@ -29,28 +27,48 @@
         height: 310px;
         object-fit: cover;
         border-radius: 4px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
         border: 1px solid #333;
     }
 
-    /* ORTA KOLON: BİLGİLER */
-    .book-main-info h1 { font-size: 2.2rem; font-weight: 800; margin: 0; color: #fff; }
-    .book-meta { font-size: 1.1rem; color: #9ab; margin: 8px 0 20px 0; }
+    /* ORTA KOLON */
+    .book-main-info h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0;
+        color: #fff;
+    }
 
-    /* AÇIKLAMA: "Daha Fazla" */
+    .book-meta {
+        font-size: 1rem;
+        color: #9ab;
+        margin: 8px 0 20px 0;
+    }
+
     .description-text {
         line-height: 1.6;
         color: #9ab;
-        font-size: 1rem;
+        font-size: 0.95rem;
         overflow: hidden;
         display: -webkit-box;
-        -webkit-line-clamp: 5;
+        -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
     }
-    .description-text.expanded { display: block; -webkit-line-clamp: unset; }
-    .read-more-btn { background: none; border: none; color: #00c030; cursor: pointer; font-weight: bold; margin-top: 10px; font-size: 0.9rem; }
 
-    /* SAĞ KOLON: AKSİYON PANELİ */
+    .description-text.expanded {
+        display: block;
+    }
+
+    .read-more-btn {
+        background: none;
+        border: none;
+        color: #00c030;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    /* SAĞ PANEL */
     .action-panel {
         background: #2c3440;
         border-radius: 8px;
@@ -58,46 +76,115 @@
         position: sticky;
         top: 20px;
         overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .rating-section { padding: 20px 15px; text-align: center; }
-    .star-rating-v2 { display: flex; flex-direction: row-reverse; justify-content: center; gap: 5px; font-size: 1.8rem; margin-bottom: 15px; }
+
+    .rating-section {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .star-rating-v2 {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 3px;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
     .star-rating-v2 input { display: none; }
     .star-rating-v2 label { color: #456; cursor: pointer; }
-    .star-rating-v2 input:checked ~ label, .star-rating-v2 label:hover, .star-rating-v2 label:hover ~ label { color: #00c030; }
-    
-    textarea { width: 100%; background: #14181c; border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; font-size: 0.85rem; resize: none; margin-bottom: 10px; }
-    .submit-btn { background: #00c030; width: 100%; border: none; padding: 10px; border-radius: 4px; color: white; font-weight: bold; cursor: pointer; }
+    .star-rating-v2 input:checked ~ label,
+    .star-rating-v2 label:hover,
+    .star-rating-v2 label:hover ~ label { color: #00c030; }
 
-    .avg-rating-box { background: #14181c; padding: 15px; border-top: 1px solid #333; text-align: center; }
+    textarea {
+        width: 100%;
+        background: #14181c;
+        border: 1px solid #333;
+        color: white;
+        padding: 8px;
+        border-radius: 5px;
+        font-size: 0.85rem;
+        resize: none;
+    }
 
-    /* DİNAMİK BUTONLAR (READ, LIKE, LIST) */
-    .quick-actions { display: flex; justify-content: space-around; padding: 15px; background: #1b222b; border-top: 1px solid #333; }
-    .q-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.75rem; color: #9ab; cursor: pointer; transition: 0.2s; }
-    .q-btn i { font-size: 1.4rem; }
-    .q-btn:hover { color: #fff; }
+    .submit-btn {
+        background: #00c030;
+        width: 100%;
+        border: none;
+        padding: 8px;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+    }
 
-    /* Aktif Renkler */
+    /* ORTALAMA PUAN */
+    .avg-rating-box {
+        background: #14181c;
+        padding: 12px;
+        border-top: 1px solid #333;
+        text-align: center;
+    }
+
+    /* DİNAMİK AKSİYON BUTONLARI (LETTERBOXD TARZI) */
+    .quick-actions {
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+        background: #1b222b;
+        border-top: 1px solid #333;
+    }
+
+    .q-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.7rem;
+        color: #9ab;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .q-btn i {
+        font-size: 1.3rem;
+        transition: transform 0.2s, color 0.2s;
+    }
+
+    .q-btn:hover i {
+        transform: scale(1.1);
+    }
+
+    /* AKTİF RENKLER: Letterboxd renk paleti */
+    /* Read (Göz) - Yeşil */
     .q-btn#btn-read.active { color: #00c030; }
+    /* Like (Kalp) - Turuncu/Kırmızı */
     .q-btn#btn-like.active { color: #ff8000; }
+    /* List (Klasör) - Mavi */
     .q-btn#btn-list.active { color: #3b82f6; }
 
-    .review-card { background: #1c1c1c; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #00c030; }
+    /* REVIEWS */
+    .review-card {
+        background: #1c1c1c;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        border-left: 3px solid #00c030;
+    }
 </style>
 
 <div class="container-detail">
     
     <aside class="book-aside">
         {% if book.thumbnail %}
-            <img src="{{ book.thumbnail }}" class="book-cover-main" alt="{{ book.title }}">
-        {% elif book.covers and book.covers.0 %}
-            <img src="{{ book.covers.0 }}" class="book-cover-main" alt="{{ book.title }}">
-        {% elif book.image %}
-            <img src="{{ book.image }}" class="book-cover-main" alt="{{ book.title }}">
+            <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
         {% else %}
             <div style="height: 310px; background: #222; border-radius: 4px; display: flex; flex-direction:column; align-items: center; justify-content: center; border: 1px solid #333;">
-                <i class="fas fa-book" style="font-size: 3rem; color: #444;"></i>
-                <span style="color: #555; font-size: 0.8rem; margin-top:10px;">Görsel Bulunamadı</span>
+                <span style="font-size: 2rem;">📚</span>
+                <span style="color: #555; font-size: 0.8rem; margin-top:10px;">No Cover Found</span>
             </div>
         {% endif %}
     </aside>
@@ -106,31 +193,31 @@
         <h1>{{ book.title }}</h1>
         <div class="book-meta">
             <span>{{ book.first_publish_year|default:"" }}</span> 
-            {% if book.authors %}<span style="margin: 0 10px;">•</span>{% endif %}
+            {% if book.authors %}<span style="margin: 0 8px;">•</span>{% endif %}
             <span>{{ book.authors|join:", " }}</span>
         </div>
 
         <div class="description-container">
             <div id="descText" class="description-text">
-                {{ book.description|default:"Bu kitap için açıklama bulunamadı." }}
+                {{ book.description|default:"No description available." }}
             </div>
-            {% if book.description and book.description|length > 300 %}
-                <button id="readMoreBtn" class="read-more-btn" onclick="toggleDescription()">... daha fazla</button>
+            {% if book.description and book.description|length > 250 %}
+                <button id="readMoreBtn" class="read-more-btn" onclick="toggleDescription()">... more</button>
             {% endif %}
         </div>
 
         <div class="reviews-section">
-            <h3 style="margin-top: 40px; border-bottom: 1px solid #333; padding-bottom: 10px;">Yorumlar</h3>
+            <h3 style="border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 15px; font-size: 1.1rem;">Reviews</h3>
             {% for review in reviews %}
             <div class="review-card">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <strong style="color: #fff;">{{ review.user.username }}</strong>
-                    <span style="color: #00c030;">★ {{ review.rating }}</span>
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <strong style="font-size: 0.9rem;">{{ review.user.username }}</strong>
+                    <span style="color: #00c030; font-size: 0.7rem;">★ {{ review.rating }}</span>
                 </div>
-                <p style="color: #9ab; margin: 0;">{{ review.comment }}</p>
+                <p style="color: #9ab; font-size: 0.85rem; margin: 0;">{{ review.comment }}</p>
             </div>
             {% empty %}
-            <p style="color: #678; margin-top:15px;">Henüz yorum yok. İlk yorumu sen yap!</p>
+            <p style="color: #678; font-size: 0.9rem;">No reviews yet.</p>
             {% endfor %}
         </div>
     </div>
@@ -140,7 +227,7 @@
             {% if user.is_authenticated %}
             <form method="POST">
                 {% csrf_token %}
-                <p style="font-size: 0.7rem; color: #9ab; margin-top: 0; letter-spacing: 1px; font-weight: bold;">PUANLA</p>
+                <p style="font-size: 0.7rem; color: #9ab; margin-top: 0; letter-spacing: 1px;">RATE THIS BOOK</p>
                 <div class="star-rating-v2">
                     <input type="radio" name="rating" value="5" id="v2-star5"><label for="v2-star5">★</label>
                     <input type="radio" name="rating" value="4" id="v2-star4"><label for="v2-star4">★</label>
@@ -149,30 +236,30 @@
                     <input type="radio" name="rating" value="1" id="v2-star1"><label for="v2-star1">★</label>
                 </div>
                 {{ form.comment }}
-                <button type="submit" class="submit-btn">Kaydet</button>
+                <button type="submit" class="submit-btn">Save Review</button>
             </form>
             {% else %}
-            <p style="font-size: 0.9rem; padding: 10px;">Giriş yapmalısın.</p>
+            <p style="font-size: 0.8rem; padding: 10px;">Log in to rate.</p>
             {% endif %}
         </div>
 
         <div class="avg-rating-box">
-            <p style="font-size: 0.7rem; color: #9ab; margin: 0 0 5px 0;">ORTALAMA</p>
+            <p style="font-size: 0.7rem; color: #9ab; margin: 0 0 5px 0;">AVERAGE RATING</p>
             <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
-                <span style="font-size: 1.5rem; font-weight: bold; color: #fff;">{{ avg_rating|floatformat:1|default:"0.0" }}</span>
-                <span style="color: #00c030;">★</span>
+                <span style="font-size: 1.2rem; font-weight: bold; color: #fff;">{{ avg_rating|floatformat:1|default:"0.0" }}</span>
+                <span style="color: #00c030; font-size: 0.9rem;">★</span>
             </div>
         </div>
 
         <div class="quick-actions">
             <div class="q-btn" id="btn-read" onclick="toggleAction('btn-read')">
-                <i class="fas fa-eye"></i><span>Read</span>
+                <i class="fas fa-eye"></i> <span>Read</span>
             </div>
             <div class="q-btn" id="btn-like" onclick="toggleAction('btn-like')">
-                <i class="fas fa-heart"></i><span>Like</span>
+                <i class="fas fa-heart"></i> <span>Like</span>
             </div>
             <div class="q-btn" id="btn-list" onclick="toggleAction('btn-list')">
-                <i class="fas fa-folder-plus"></i><span>List</span>
+                <i class="fas fa-folder-plus"></i> <span>List</span>
             </div>
         </div>
     </div>
@@ -180,20 +267,23 @@
 </div>
 
 <script>
+    // Açıklama "Daha Fazla" Fonksiyonu
     function toggleDescription() {
         const text = document.getElementById('descText');
         const btn = document.getElementById('readMoreBtn');
         if (text.classList.contains('expanded')) {
             text.classList.remove('expanded');
-            btn.innerText = '... daha fazla';
+            btn.innerText = '... more';
         } else {
             text.classList.add('expanded');
-            btn.innerText = 'daha az';
+            btn.innerText = 'less';
         }
     }
 
+    // YENİ: Aksiyon Butonları Renk Değiştirme Fonksiyonu
     function toggleAction(btnId) {
-        document.getElementById(btnId).classList.toggle('active');
+        const btn = document.getElementById(btnId);
+        btn.classList.toggle('active'); // CSS'deki 'active' sınıfını ekler/çıkarır
     }
 </script>
 {% endblock %}

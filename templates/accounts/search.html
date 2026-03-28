@@ -17,6 +17,11 @@
         
         {% if book.thumbnail %}
             <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
+        {% else %}
+            <div style="height: 310px; background: #222; border-radius: 4px; display: flex; flex-direction:column; align-items: center; justify-content: center; border: 1px solid #333;">
+                <span style="font-size: 2rem;">📚</span>
+                <span style="color: #555; font-size: 0.8rem; margin-top:10px;">No Cover Found</span>
+            </div>
         {% endif %}
 
         <p style="margin-top:10px; font-size:14px;">
