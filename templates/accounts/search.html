@@ -20,7 +20,7 @@
         {% endif %}
 
         <p style="margin-top:10px; font-size:14px;">
-            {{ book.title }}
+            <a href="{% url 'book_detail' book.olid %}">{{ book.title }}</a>
         </p>
 
         <small style="color:#aaa;">

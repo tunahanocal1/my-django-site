@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ book.title }}</h2>
+
+<p><strong>Authors:</strong> {{ book.authors|join:", " }}</p>
+
+{% if book.covers %}
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        {% for cover in book.covers %}
+            <img src="{{ cover }}" style="height:300px; border-radius:6px;">
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if book.description %}
+    <h3>Description</h3>
+    <p>{{ book.description }}</p>
+{% else %}
+    <p>No description available.</p>
+{% endif %}
+
+<a href="{% url 'search' %}?q=">Back to search</a>
+{% endblock %}

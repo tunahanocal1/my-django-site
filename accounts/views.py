@@ -44,6 +44,7 @@ def search(request):
                     'title': item.get('title', 'No Title'),
                     'authors': item.get('author_name', ['Unknown']),
                     'thumbnail': f"https://covers.openlibrary.org/b/id/{item['cover_i']}-M.jpg" if item.get('cover_i') else None
+                    'olid': item.get('key').split('/')[-1]  # '/works/OL12345W' → 'OL12345W'
                 })
         except Exception as e:
             print(f"Open Library search error: {e}")
@@ -89,3 +90,32 @@ def profile_view(request):
     return render(request, 'accounts/profile.html')
 
 
+def book_detail(request, olid):
+    """
+    Open Library API üzerinden tek bir kitabın detayını getirir.
+    """
+    url = f"https://openlibrary.org/works/{olid}.json"
+    book = {}
+    try:
+        response = requests.get(url)
+        data = response.json()
+        book['title'] = data.get('title', 'No Title')
+        book['description'] = ''
+        # description bazen dict bazen string olarak gelir
+        if isinstance(data.get('description'), dict):
+            book['description'] = data['description'].get('value', '')
+        elif isinstance(data.get('description'), str):
+            book['description'] = data['description']
+        book['authors'] = []
+        for author in data.get('authors', []):
+            # author key ile detay alıyoruz
+            author_url = f"https://openlibrary.org{author['author']['key']}.json"
+            a_res = requests.get(author_url).json()
+            book['authors'].append(a_res.get('name', 'Unknown'))
+        book['covers'] = []
+        for cover_id in data.get('covers', []):
+            book['covers'].append(f"https://covers.openlibrary.org/b/id/{cover_id}-L.jpg")
+    except Exception as e:
+        print(f"Open Library book detail error: {e}")
+
+    return render(request, 'accounts/book_detail.html', {'book': book})
