@@ -1,135 +1,63 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block content %}
-<style>
-    /* LOGGED IN HERO (Referans görselindeki 'Ahmet' tarzı) */
-    .home-hero {
-        position: relative;
-        width: 100%;
-        height: 60vh; /* Ekranın %60'ı */
-        background-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%), 
-                          url('{% static "images/hero.jpg" %}'); /* Aynı arka planı kullanıyoruz */
-        background-size: cover;
-        background-position: center;
-        margin-top: -80px; /* Header'ın altına girmesi için */
-        display: flex;
-        align-items: flex-end; /* İçeriği alta yasla */
-        padding: 4rem;
-    }
 
-    .home-hero-content {
-        max-width: 800px;
-        z-index: 10;
-    }
+<!-- HERO -->
+<section style="text-align:center; margin-top:40px;">
+    <h1 style="font-size:3rem;">Track, discover, and share the books you read</h1>
+    <p style="color:#aaa; margin-top:10px;">
+        Build your reading history and explore new books with NetBox
+    </p>
 
-    .home-hero h1 {
-        font-size: 3rem;
-        font-weight: 800;
-        margin: 0;
-        line-height: 1.1;
-    }
+</section>
 
-    .home-hero p {
-        color: #ccc;
-        margin-top: 1rem;
-        margin-bottom: 2rem;
-        font-size: 1.1rem;
-    }
+<!-- POPULAR BOOKS -->
+<section style="margin-top:60px;">
+    <h2>Popular Books</h2>
 
-    .btn-watch {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.8rem 2rem;
-        background-color: #00c030;
-        color: white;
-        font-weight: 700;
-        border-radius: 8px;
-        font-size: 1rem;
-    }
-
-    /* KİTAP LİSTESİ */
-    .content-section {
-        padding: 3rem 4rem;
-    }
-
-    .section-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-    }
-
-    .books-scroller {
-        display: flex;
-        gap: 1.5rem;
-        overflow-x: auto;
-        padding-bottom: 1rem;
-    }
-    /* Scrollbar styling */
-    .books-scroller::-webkit-scrollbar { height: 8px; }
-    .books-scroller::-webkit-scrollbar-track { background: #161b22; border-radius: 10px; }
-    .books-scroller::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; }
-
-    .book-card {
-        min-width: 150px;
-        max-width: 150px;
-        text-align: center;
-    }
-
-    .book-card img {
-        width: 100%;
-        height: 225px; /* Standart kitap oranı */
-        object-fit: cover;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        transition: transform 0.2s;
-    }
-    .book-card img:hover { transform: scale(1.05); }
-
-    .book-card small {
-        display: block;
-        margin-top: 0.75rem;
-        color: #e1e4e8;
-        font-weight: 500;
-        font-size: 0.9rem;
-        /* Uzun başlıkları kırp */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style>
-
-<section class="home-hero">
-    <div class="home-hero-content">
-        <h1>Discover Your Next Great Read</h1>
-        <p>Explore thousands of titles, track your progress, and see what your friends are reading. NetBox is your personal library, reimagined.</p>
-        <a href="#" class="btn-watch">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 22v-20l18 10-18 10z"/></svg>
-            Explore Now
-        </a>
+    <div style="display:flex; gap:15px; overflow-x:auto;">
+        {% for book in books %}
+        <div style="min-width:120px; text-align:center;">
+            {% if book.thumbnail %}
+                <img src="{{ book.thumbnail }}" style="width:100%; border-radius:6px;">
+            {% endif %}
+            <small>{{ book.title }}</small>
+        </div>
+        {% endfor %}
     </div>
 </section>
 
-<section class="content-section">
-    <h2 class="section-title">Popular Books</h2>
+<!-- FEATURES -->
+<section style="margin-top:60px;">
+    <h2>What You Can Do</h2>
 
-    <div class="books-scroller">
-        {% for book in books %}
-        <div class="book-card">
-            <a href="#">
-                {% if book.thumbnail %}
-                    <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
-                {% else %}
-                    <div style="width:100%; height:225px; background:#30363d; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#8b949e;">No Cover</div>
-                {% endif %}
-                <small title="{{ book.title }}">{{ book.title }}</small>
-            </a>
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+        gap:20px;
+        margin-top:20px;
+    ">
+        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
+            📚 Track your books
         </div>
-        {% empty %}
-        <p style="color: #8b949e;">No books found.</p>
-        {% endfor %}
+
+        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
+            ⭐ Rate them
+        </div>
+
+        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
+            📝 Write reviews
+        </div>
+
+        <div style="background:#1c1c1c; padding:20px; border-radius:10px;">
+            🔍 Discover new books
+        </div>
     </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align:center; margin-top:60px;">
+    <h2>Start your reading journey today</h2>
 </section>
 
 {% endblock %}
