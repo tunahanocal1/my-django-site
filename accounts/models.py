@@ -26,7 +26,7 @@ def __str__(self):
     return f"{self.user.username} Profile"
 
 class UserBook(models.Model):
-    user = models.ForeignKey(User, on_relative=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     olid = models.CharField(max_length=100)
     title = models.CharField(max_length=255)
     thumbnail = models.URLField(max_length=500, null=True, blank=True)
