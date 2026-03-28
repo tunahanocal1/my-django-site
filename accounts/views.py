@@ -43,7 +43,7 @@ def search(request):
                 books.append({
                     'title': item.get('title', 'No Title'),
                     'authors': item.get('author_name', ['Unknown']),
-                    'thumbnail': f"https://covers.openlibrary.org/b/id/{item['cover_i']}-M.jpg" if item.get('cover_i') else None
+                    'thumbnail': f"https://covers.openlibrary.org/b/id/{item['cover_i']}-M.jpg" if item.get('cover_i') else None,
                     'olid': item.get('key').split('/')[-1]  # '/works/OL12345W' → 'OL12345W'
                 })
         except Exception as e:
