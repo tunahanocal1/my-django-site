@@ -25,4 +25,20 @@ class Book(models.Model):
 def __str__(self):
     return f"{self.user.username} Profile"
 
+class UserBook(models.Model):
+    user = models.ForeignKey(User, on_relative=models.CASCADE)
+    olid = models.CharField(max_length=100)
+    title = models.CharField(max_length=255)
+    thumbnail = models.URLField(max_length=500, null=True, blank=True)
+    
+    is_read = models.BooleanField(default=False)
+    is_liked = models.BooleanField(default=False)
+    is_watchlist = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'olid')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.title}"
+
 
