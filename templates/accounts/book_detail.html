@@ -1,75 +1,115 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ book.title }}</h2>
 
-<p><strong>Authors:</strong> {{ book.authors|join:", " }}</p>
+<div style="max-width:900px; margin:40px auto; color:white;">
 
-{% if book.covers %}
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        {% for cover in book.covers %}
-            <img src="{{ cover }}" style="height:300px; border-radius:6px;">
+    <!-- 📚 BOOK HEADER -->
+    <div style="
+        display:flex;
+        gap:30px;
+        margin-bottom:40px;
+        background:#1c1c1c;
+        padding:20px;
+        border-radius:12px;
+    ">
+
+        {% if book.covers %}
+        <img src="{{ book.covers.0 }}" style="width:150px; border-radius:8px;">
+        {% endif %}
+
+        <div>
+            <h2 style="margin-bottom:10px;">{{ book.title }}</h2>
+            <p style="color:#aaa;">{{ book.authors|join:", " }}</p>
+
+            {% if avg_rating %}
+            <p style="margin-top:10px;">⭐ {{ avg_rating|floatformat:1 }}/5</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- 📖 DESCRIPTION -->
+    <div style="
+        background:#1c1c1c;
+        padding:20px;
+        border-radius:12px;
+        margin-bottom:30px;
+    ">
+        <h3>Description</h3>
+        <p style="color:#ccc; line-height:1.6;">
+            {{ book.description|default:"No description available." }}
+        </p>
+    </div>
+
+    <!-- ✍️ REVIEW FORM -->
+    <div style="
+        background:#1c1c1c;
+        padding:20px;
+        border-radius:12px;
+        margin-bottom:30px;
+    ">
+        <h3>Write a Review</h3>
+
+        {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- ⭐ yıldız -->
+            <div class="star-rating">
+                <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+                <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+                <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+                <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+                <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+            </div>
+
+            <br>
+
+            {{ form.comment }}
+
+            <br><br>
+
+            <button style="
+                background:#00c853;
+                padding:10px 20px;
+                border:none;
+                border-radius:8px;
+                color:white;
+                cursor:pointer;
+            ">
+                Gönder
+            </button>
+        </form>
+        {% else %}
+        <p>Yorum yapmak için giriş yap.</p>
+        {% endif %}
+    </div>
+
+    <!-- 💬 REVIEWS -->
+    <div style="
+        background:#1c1c1c;
+        padding:20px;
+        border-radius:12px;
+    ">
+        <h3>Reviews</h3>
+
+        {% for review in reviews %}
+        <div style="
+            margin-top:15px;
+            padding:15px;
+            background:#2a2a2a;
+            border-radius:10px;
+        ">
+            <strong>{{ review.user.username }}</strong>
+            <p style="color:#00c853;">⭐ {{ review.rating }}/5</p>
+            <p style="color:#ccc;">{{ review.comment }}</p>
+        </div>
+        {% empty %}
+        <p>No reviews yet.</p>
         {% endfor %}
     </div>
-{% endif %}
 
-{% if avg_rating %}
-<p>⭐ Ortalama Puan: {{ avg_rating|floatformat:1 }}/5</p>
-{% else %}
-<p>Henüz puan yok</p>
-{% endif %}
-
-{% if user.is_authenticated %}
-<form method="POST">
-    {% csrf_token %}
-
-    <div class="star-rating">
-        <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
-        <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
-        <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
-        <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
-        <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
-    </div>
-
-    <br><br>
-
-    <label>Yorum:</label><br>
-    <textarea name="comment" style="
-        width:100%;
-        background:#1e1e1e;
-        color:white;
-        border:1px solid #444;
-        border-radius:8px;
-        padding:10px;
-        resize:vertical;
-    "></textarea>
-
-    <button type="submit">Submit</button>
-</form>
-{% else %}
-<p>Yorum yapmak için giriş yapmalısın.</p>
-{% endif %}
-
-
-
-{% if book.description %}
-    <h3>Description</h3>
-    <p>{{ book.description }}</p>
-{% else %}
-    <p>No description available.</p>
-{% endif %}
-
-<h3>Yorumlar</h3>
-
-{% for review in reviews %}
-<div style="margin-bottom:15px; padding:10px; background:#222; border-radius:8px;">
-    <strong>{{ review.user.username }}</strong>
-    <p>⭐ {{ review.rating }}/5</p>
-    <p>{{ review.comment }}</p>
 </div>
-{% empty %}
-<p>Henüz yorum yok.</p>
-{% endfor %}
 
-<a href="{% url 'search' %}?q=">Back to search</a>
 {% endblock %}
