@@ -1,24 +1,105 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ book.title }}</h2>
 
-<p><strong>Authors:</strong> {{ book.authors|join:", " }}</p>
+<div style="
+    position:relative;
+    height:90vh;
+    color:white;
+    overflow:hidden;
+">
 
-{% if book.covers %}
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <!-- ARKA PLAN COVER -->
+    {% if book.covers %}
+    <div style="
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-image: url('{{ book.covers.0 }}');
+        background-size:cover;
+        background-position:center;
+        filter:brightness(0.4);
+    "></div>
+    {% endif %}
+
+    <!-- GRADIENT OVERLAY -->
+    <div style="
+        position:absolute;
+        width:100%;
+        height:100%;
+        background: linear-gradient(to right, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.2));
+    "></div>
+
+    <!-- CONTENT -->
+    <div style="
+        position:relative;
+        z-index:2;
+        padding:80px;
+        max-width:700px;
+    ">
+
+        <h1 style="font-size:60px; margin-bottom:20px;">
+            {{ book.title }}
+        </h1>
+
+        <p style="color:#aaa; margin-bottom:15px;">
+            👤 {{ book.authors|join:", " }}
+        </p>
+
+        {% if book.description %}
+        <p style="line-height:1.6; margin-bottom:30px;">
+            {{ book.description|truncatewords:40 }}
+        </p>
+        {% endif %}
+
+        <!-- BUTONLAR -->
+        <div style="display:flex; gap:15px;">
+            <a href="#" style="
+                background:#22c55e;
+                padding:12px 25px;
+                border-radius:8px;
+                color:white;
+                text-decoration:none;
+                font-weight:bold;
+            ">
+                ▶ Read Now
+            </a>
+
+            <a href="{% url 'search' %}?q=" style="
+                background:#333;
+                padding:12px 25px;
+                border-radius:8px;
+                color:white;
+                text-decoration:none;
+            ">
+                ← Back
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ALTTA EKSTRA BİLGİ / GALERİ -->
+<div style="padding:40px; background:#111; color:white;">
+
+    <h2 style="margin-bottom:20px;">More Covers</h2>
+
+    <div style="
+        display:flex;
+        gap:15px;
+        overflow-x:auto;
+    ">
         {% for cover in book.covers %}
-            <img src="{{ cover }}" style="height:300px; border-radius:6px;">
+            <img src="{{ cover }}" style="
+                height:200px;
+                border-radius:10px;
+            ">
         {% endfor %}
     </div>
-{% endif %}
 
-{% if book.description %}
-    <h3>Description</h3>
-    <p>{{ book.description }}</p>
-{% else %}
-    <p>No description available.</p>
-{% endif %}
+</div>
 
-<a href="{% url 'search' %}?q=">Back to search</a>
 {% endblock %}
